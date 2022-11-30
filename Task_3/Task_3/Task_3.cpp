@@ -1,13 +1,21 @@
-﻿#include<iostream>
+﻿#include <iostream>
 
 class Figure {
 public:
 	Figure() {
-		this->sides_ = 0;
+		this->numSides_ = 0;
 		this->name_ = "Фигура: ";
 	}
+
+	int GetSides() {
+		return numSides_;
+	}
+	std::string GetName() {
+		return name_;
+	}
+	
 	virtual bool check() {
-		if (sides_ == 0) {
+		if (GetSides() == 0) {
 			return true;
 		}
 		else {
@@ -15,79 +23,76 @@ public:
 		}
 	}
 	virtual void Print() {
-		std::cout << name_ << std::endl;
-		if (check()) {
-			std::cout << "Правильная" << std::endl;
-		}
-		else {
-			std::cout << "Неправильная" << std::endl;
-		}
-		std::cout << "Количество сторон: " << sides_ << std::endl;
+		std::cout << GetName() << std::endl;
+		if (check()) { std::cout << "Правильная" << std::endl; }
+		else { std::cout << "Неправильная" << std::endl; }
+		std::cout << "Количество сторон: " << GetSides() << std::endl;
 	}
-private:
-
+	void Print(Figure* figure) {
+		figure->Print();
+	}
 protected:
-	int sides_;
+	int numSides_;
 	std::string name_;
 };
+
 class Triangle : public Figure {
+private:
+
 public:
-	Triangle(int a, int b, int c, int A, int B, int C) {
-		this->a_ = a;
-		this->b_ = b;
-		this->c_ = c;
-		this->A_ = A;
-		this->B_ = B;
-		this->C_ = C;
-		this->sides_ = 3;
-		this->name_ = "Треугольник: ";
-	}
-	Triangle(int a, int b, int c, int A, int B) {
-		this->a_ = a;
-		this->b_ = b;
-		this->c_ = c;
-		this->A_ = A;
-		this->B_ = B;
-		this->C_ = 90;
-		this->sides_ = 3;
-		this->name_ = "Прямоугольный треугольник: ";
-	}
-	Triangle(int a, int b, int A, int B) {
-		this->a_ = a;
-		this->b_ = b;
-		this->c_ = a;
-		this->A_ = A;
-		this->B_ = B;
-		this->C_ = A;
-		this->sides_ = 3;
-		this->name_ = "Равнобедренный треугольник: ";
-	}
-	Triangle(int a) {
-		this->a_ = a;
-		this->b_ = a;
-		this->c_ = a;
-		this->A_ = 60;
+	Triangle() {
+		this->a_ = 10;
+		this->b_ = 20;
+		this->c_ = 30;
+		this->A_ = 50;
 		this->B_ = 60;
-		this->C_ = 60;
-		this->sides_ = 3;
-		this->name_ = "Равносторонний треугольник: ";
+		this->C_ = 70;
+		this->name_ = "Треугольник: ";
+		this->numSides_ = 3;
+	}
+
+	int Get_a() {
+		return a_;
+	}
+	int Get_b() {
+		return b_;
+	}
+	int Get_c() {
+		return c_;
+	}
+	int Get_A() {
+		return A_;
+	}
+	int Get_B() {
+		return B_;
+	}
+	int Get_C() {
+		return C_;
+	}
+	std::string GetName() {
+		return name_;
+	}
+	int GetSides() {
+		return numSides_;
+	}
+
+	void Print() override {
+		Figure::Print();
+		std::cout << "Стороны: " << "a=" << Get_a() << " " << "b=" << Get_b() << " " << "c=" << Get_c() << std::endl;
+		std::cout << "Углы: " << "A=" << Get_A() << " " << "B=" << Get_B() << " " << "C=" << Get_C() << std::endl;
+		std::cout << std::endl;
 	}
 	bool check() override {
-		if ((A_ + B_ + C_) == 180) {
+		if ((Get_A() + Get_B() + Get_C()) == 180) {
 			return true;
 		}
 		else {
 			return false;
-
 		}
 	}
-	void Print() override {
-		Figure::Print();
-		std::cout << "Стороны: " << " a = " << a_ << " b = " << b_ << " c = " << c_ << std::endl;
-		std::cout << "Углы: " << " A = " << A_ << " B = " << B_ << " C = " << C_ << std::endl;
-		std::cout << std::endl;
-	}
+
 protected:
+	
 	int a_,
 		b_,
 		c_,
@@ -95,95 +100,120 @@ protected:
 		B_,
 		C_;
 };
-class RectangularTr : public Triangle {                    // Прямоугольный треугольник
-public:
-	RectangularTr(int a, int b, int c, int A, int B) : Triangle(a, b, c, A, B) {}
-};
-class IsoscelesTr : public Triangle {					   // Равнобедренный
-public:
-	IsoscelesTr(int a, int b, int A, int B) : Triangle(a, b, A, B) {}
-};
-class EquilateralTr : public Triangle {                    // Равносторонний треугольник
-public:
-	EquilateralTr(int a) : Triangle(a) {}
-};
+class RightTr : public Triangle {
+protected:
 
-class Quadrilateral : public Figure {											// Четырёхугольник
 public:
-	Quadrilateral(int a, int b, int c, int d, int A, int B, int C, int D) {
-		this->a_ = a;
-		this->b_ = b;
-		this->c_ = c;
-		this->d_ = d;
-		this->A_ = A;
-		this->B_ = B;
-		this->C_ = C;
-		this->D_ = D;
-		this->sides_ = 4;
-		this->name_ = "Четырёхугольник: ";
-	}
-	Quadrilateral(int a, int b) {
-		this->a_ = a;
-		this->b_ = b;
-		this->c_ = a;
-		this->d_ = b;
-		this->A_ = 90;
-		this->B_ = 90;
+	RightTr() {
 		this->C_ = 90;
-		this->D_ = 90;
-		this->sides_ = 4;
-		this->name_ = "Прямоугольник: ";
-	}
-	Quadrilateral(int a) {
-		this->a_ = a;
-		this->b_ = a;
-		this->c_ = a;
-		this->d_ = a;
-		this->A_ = 90;
-		this->B_ = 90;
-		this->C_ = 90;
-		this->D_ = 90;
-		this->sides_ = 4;
-		this->name_ = "Квадрат: ";
-	}
-	Quadrilateral(int a, int b, int A, int B) {
-		this->a_ = a;
-		this->b_ = b;
-		this->c_ = a;
-		this->d_ = b;
-		this->A_ = A;
-		this->B_ = B;
-		this->C_ = A;
-		this->D_ = B;
-		this->sides_ = 4;
-		this->name_ = "Параллелограмм: ";
-	}
-	Quadrilateral(int a, int A, int B) {
-		this->a_ = a;
-		this->b_ = a;
-		this->c_ = a;
-		this->d_ = a;
-		this->A_ = A;
-		this->B_ = B;
-		this->C_ = A;
-		this->D_ = B;
-		this->sides_ = 4;
-		this->name_ = "Ромб: ";
+		this->name_ = "Прямоугольный треугольник: ";
 	}
 	bool check() override {
-		if ((A_ + B_ + C_ + D_) == 360) {
+		if (Triangle::check() && Get_C() == 90) {
 			return true;
 		}
 		else {
 			return false;
 		}
 	}
+};
+class IsoscelesTr : public Triangle {
+public:
+	IsoscelesTr() {
+		this->a_ = 10;
+		this->c_ = a_;
+		this->A_ = 50;
+		this->C_ = A_;
+		this->name_ = "Равнобедренный треугольник: ";
+	}
+	bool check() override {
+		if (Triangle::check() && (Get_a() == Get_c()) && (Get_A() == Get_C())) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+};
+class EquilateralTr : public Triangle {
+public:
+	EquilateralTr() {
+		this->a_ = 30;
+		this->b_ = a_;
+		this->c_ = a_;
+		this->A_ = 60;
+		this->B_ = A_;
+		this->C_ = A_;
+		this->name_ = "Равносторонний треугольник: ";
+	}
+	bool check() override {
+		if ((Get_A() == 60 && Get_B() == 60 && Get_C() == 60) && (Get_a() == Get_b()) && 
+			(Get_a() == Get_c())) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+};
+
+class Quadrilateral : public Figure {
+public:
+	Quadrilateral() {
+		this->a_ = 10;
+		this->b_ = 20;
+		this->c_ = 30;
+		this->d_ = 40;
+		this->A_ = 50;
+		this->B_ = 60;
+		this->C_ = 70;
+		this->D_ = 80;
+		this->name_ = "Четырёхугольник: ";
+		this->numSides_ = 4;
+	}
+
+	int Get_a() {
+		return a_;
+	}
+	int Get_b() {
+		return b_;
+	}
+	int Get_c() {
+		return c_;
+	}
+	int Get_d() {
+		return d_;
+	}
+	int Get_A() {
+		return A_;
+	}
+	int Get_B() {
+		return B_;
+	}
+	int Get_C() {
+		return C_;
+	}
+	int Get_D() {
+		return D_;
+	}
+	std::string Get_name() {
+		return name_;
+	}
 	void Print() override {
 		Figure::Print();
-		std::cout << "Стороны: " << " a = " << a_ << " b = " << b_ << " c = " << c_ << " d = " << d_ << std::endl;
-		std::cout << "Углы: " << " A = " << A_ << " B = " << B_ << " C = " << C_ << " D = " << D_ << std::endl;
+		std::cout << "Стороны: " << "a=" << Get_a() << " " << "b=" << Get_b() << " " << "c=" << Get_c() << " " << "d=" << Get_d() << std::endl;
+		std::cout << "Углы: " << "A=" << Get_A() << " " << "B=" << Get_B() << " " << "C=" << Get_C() << " " << "D=" << Get_D() << std::endl;
 		std::cout << std::endl;
 	}
+	bool check() override {
+		if ((Get_A() + Get_B() + Get_C() + Get_D() == 360) && GetSides() == 4) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 protected:
 	int a_,
 		b_,
@@ -194,48 +224,111 @@ protected:
 		C_,
 		D_;
 };
-class Rectangle : public Quadrilateral {									// Прямоугольник
+class Parallelogram : public Quadrilateral {
 public:
-	Rectangle(int a, int b) : Quadrilateral(a, b) { }
+	Parallelogram() {
+		this->a_ = 20;
+		this->b_ = 30;
+		this->c_ = a_;
+		this->d_ = b_;
+		this->A_ = 30;
+		this->B_ = 40;
+		this->C_ = A_;
+		this->D_ = B_;
+		this->name_ = "Параллелограмм: ";
+	}
+	bool check() override {
+		if (Quadrilateral::check() && (Get_a() == Get_c()) && (Get_b() == Get_d()) &&
+			(Get_A() == Get_C()) && (Get_B() == Get_D())) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 };
-class Square : public Quadrilateral {										// Квадрат
+class Rectangle : public Parallelogram {
 public:
-	Square(int a) : Quadrilateral(a) { }
+	Rectangle() {
+		this->A_ = 90;
+		this->B_ = A_;
+		this->C_ = A_;
+		this->D_ = A_;
+		this->name_ = "Прямоугольник: ";
+	}
+	bool check() override {
+		if (Quadrilateral::check() && (Get_a() == Get_c()) && (Get_b() == Get_d()) &&
+			(Get_A() == 90) && (Get_B() == 90) && (Get_C() == 90) && (Get_D() == 90)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 };
-class Parallelogram : public Quadrilateral {								// Параллелограмм
+class Rhomb : public Parallelogram {
 public:
-	Parallelogram(int a, int b, int A, int B) : Quadrilateral(a, b, A, B) { }
+	Rhomb() {
+		this->a_ = 30;
+		this->b_ = a_;
+		this->c_ = a_;
+		this->d_ = a_;
+		this->name_ = "Ромб: ";
+	}
+	bool check() override {
+		if (Quadrilateral::check() && (Get_a() == Get_b()) && (Get_b() == Get_c()) && (Get_c() == Get_d()) &&
+			(Get_A() == Get_C()) && (Get_B() == Get_D())) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 };
-class Rhomb : public Quadrilateral {										// Ромб
+class Square : public Rectangle {
 public:
-	Rhomb(int a, int A, int B) : Quadrilateral(a, A, B) { }
+	Square() {
+		this->a_ = 20;
+		this->b_ = a_;
+		this->c_ = a_;
+		this->d_ = a_;
+		this->name_ = "Квадрат: ";
+	}
+	bool check() override {
+		if ((Get_a() == Get_b()) && (Get_b() == Get_c()) && (Get_c() == Get_d()) &&
+			(Get_A() == 90) && (Get_B() == 90) && (Get_C() == 90) && (Get_D() == 90)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 };
 
 int main(int argc, char** argv) {
 
 	setlocale(LC_ALL, "ru");
-
 	Figure figure;
-	figure.Print();
+	figure.Print(&figure);
+	Triangle triangle;
+	figure.Print(&triangle);
+	RightTr rightTr;
+	figure.Print(&rightTr);
+	IsoscelesTr isosscelesTr;
+	figure.Print(&isosscelesTr);
+	EquilateralTr equilateralTr;
+	figure.Print(&equilateralTr);
 
-	Triangle triangle(10, 20, 30, 40, 50, 60);						// Треугольник
-	triangle.Print();
-	RectangularTr rectangularTr(10, 20, 30, 50, 40);				// Прямоугольный треугольник
-	rectangularTr.Print();
-	IsoscelesTr isoscelesTr(10, 20, 50, 60);						// Равнобедренный треугольник
-	isoscelesTr.Print();
-	EquilateralTr equilateralTr(30);								// Равносторонний треугольник
-	equilateralTr.Print();
 
-	Quadrilateral quadrilateral(10, 20, 30, 40, 50, 60, 70, 80);    // Четырёхугольник
-	quadrilateral.Print();
-	Rectangle rectangle(10, 20);									// Прямоугольник
-	rectangle.Print();
-	Square square(20);												// Квадрат
-	square.Print();
-	Parallelogram parallelogram(20, 30, 30, 40);					// Параллелограмм
-	parallelogram.Print();
-	Rhomb rhomb(30, 30, 40);										// Ромб
-	rhomb.Print();
+	Quadrilateral quadrilateral;
+	figure.Print(&quadrilateral);
+	Rectangle rectangle;
+	figure.Print(&rectangle);
+	Square square;
+	figure.Print(&square);
+	Parallelogram parallelogram;
+	figure.Print(&parallelogram);
+	Rhomb rhomb;
+	figure.Print(&rhomb);
 	return 0;
 }
