@@ -17,9 +17,7 @@ public:
 	void Print() {
 		std::cout << GetName() << " " << GetSides() << std::endl;
 	}
-	void Print(Figure* figure) {
-		figure->Print();
-	}
+
 protected:
 	int numSides_;
 	std::string name_;
@@ -49,9 +47,9 @@ int main(int argc, char** argv) {
 	Triangle triangle;
 	Quadrangle quadrangle;
 
-	figure.Print(&figure);
-	figure.Print(&triangle);
-	figure.Print(&quadrangle);
+	figure.Print();
+	triangle.Print();
+	quadrangle.Print();
 
 	return 0;
 }
